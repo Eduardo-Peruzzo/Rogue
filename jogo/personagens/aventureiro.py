@@ -7,7 +7,7 @@ class Aventureiro:
         self.defesa =  random.randint(10, 18)
         self.vida =  random.randint(100, 120)
         self.posicao =  [0, 0]
-        self.nome = input("Deseja buscar um tesouro? Primeiro, informe seu nome: ")
+        self.nome = "Aventureiro"
 
 
     def andar(self, direcao):
