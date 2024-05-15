@@ -1,9 +1,10 @@
-import random
+from jogo.personagens.inimigos.boss import Boss
 import pygame
 from ..personagens.aventureiro import Aventureiro
 from ..personagens.tesouro import Tesouro
 from ..gui.tela import Tela
 from . import mecanicas
+from jogo.personagens.npc import NPC
 
 def determinar_direcao(teclas):
     if teclas[pygame.K_a]:
@@ -45,35 +46,40 @@ def executar():
 
     tesouro = Tesouro()
 
+    npc = NPC(tesouro)
+
     print(f"Saudações, {aventureiro.nome}! Boa sorte!")
 
     tela = Tela()
 
-    while True:
+    jogo_rodando = True
+    while jogo_rodando:
         # Análise dos eventos
         teclas = pygame.key.get_pressed()
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
-                return
+                jogo_rodando = False
 
             if evento.type == pygame.KEYUP:
 
         # Processamento do jogo
                 if teclas[pygame.K_q]:
-                    print("Já correndo?")
-                    return
+                    aventureiro.status = "Já correndo?"
+                    jogo_rodando = False
 
-                if teclas[pygame.K_t]:
-                    aventureiro.ver_atributos()
 
                 if not mecanicas.movimentar(aventureiro, determinar_direcao(teclas)):
-                    print("Game Over")
-                    return
+                    jogo_rodando = False
 
                 if aventureiro.posicao == tesouro.posicao:
-                    print(f"Parabéns, {aventureiro.nome}, você encontrou o tesouro!")
-                    return
+                    boss = Boss()
+                    if mecanicas.iniciar_combate(aventureiro, boss):
+                        aventureiro.status = f"Parabéns, {aventureiro.nome}, você encontrou o tesouro!"
+                        jogo_rodando = False
+                    else:
+                        aventureiro.status = f"Você foi derrotador por {boss.nome}! Game over..."
+                        jogo_rodando = False
 
         # Renderização da tela
-        tela.renderizar(aventureiro, tesouro)
+        tela.renderizar(aventureiro, tesouro, npc)
         pygame.time.Clock().tick(60)

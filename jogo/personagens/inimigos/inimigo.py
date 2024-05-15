@@ -1,7 +1,6 @@
 import random
 
-class Monstro:
-
+class Inimigo:
     def __init__(self):
         """
         Inicia um novo monstro, retornando um dicionário com as seguintes chaves
@@ -16,9 +15,6 @@ class Monstro:
 
         self.forca = random.randint(5, 25)
         self.vida = random.randint(10, 100)
-
-        print("Um novo monstro apareceu!")
-
 
     def atacar(self):
         """

@@ -8,7 +8,12 @@ class Aventureiro:
         self.vida =  random.randint(100, 120)
         self.posicao =  [0, 0]
         self.nome = "Aventureiro"
+        self.char = "@"
+        self.status = "Comece a explorar"
 
+    def calcular_pos_futura(self, direcao):
+        x, y = self.posicao
+        
 
     def andar(self, direcao):
         """

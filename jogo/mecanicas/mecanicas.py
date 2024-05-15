@@ -1,7 +1,7 @@
 import random
-from jogo.personagens.monstro import Monstro
+from jogo.personagens.inimigos.monstro import Monstro
 
-def iniciar_combate(aventureiro, monstro):
+def iniciar_combate(aventureiro, inimigo):
     """
     Executa um loop infinito, que possui as seguintes etapas:
     - Calcula o dano causado pelo aventureiro
@@ -15,17 +15,14 @@ def iniciar_combate(aventureiro, monstro):
     """
     while True:
         dano = aventureiro.atacar()
-        monstro.defender(dano)
-        print(f"{aventureiro.nome} causa {dano} de dano! Vida do monstro: {monstro.vida}")
-        if not monstro.esta_vivo():
-            print("Monstro foi derrotado!")
+        inimigo.defender(dano)
+
+        if not inimigo.esta_vivo():
             return True
 
-        dano = monstro.atacar()
+        dano = inimigo.atacar()
         aventureiro.defender(dano)
-        print(f"Monstro causa {dano} de dano! Vida de {aventureiro.nome}: {aventureiro.vida}")
         if not aventureiro.esta_vivo():
-            print(f"{aventureiro.nome} foi derrotado!")
             return False
 
 # Operação principal do jogo
@@ -51,6 +48,12 @@ def movimentar(aventureiro, direcao):
     efeito = random.choices(["nada", "monstro"], [0.6, 0.4])[0]
     if efeito == "monstro":
         monstro = Monstro()
-        return iniciar_combate(aventureiro, monstro)
+        if iniciar_combate(aventureiro, monstro):
+            aventureiro.status = f"{monstro.nome} foi derrotado"
+            return True
+        else:
+            aventureiro.status = f"Você perdeu para {monstro.nome}! Game Over..."
+            return False
 
+    aventureiro.status = "Continue explorando"
     return True

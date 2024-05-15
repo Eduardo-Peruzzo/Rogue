@@ -16,3 +16,4 @@ class Tesouro:
                 break
 
         self.posicao = [x, y]
+        self.char = "X"
