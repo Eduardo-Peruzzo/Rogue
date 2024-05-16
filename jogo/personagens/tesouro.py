@@ -1,6 +1,6 @@
 import random
-class Tesouro:
 
+class Tesouro:
     def __init__(self):
         """
         Gera o tesouro em uma posição aleatória no mapa, diferente de [0, 0].

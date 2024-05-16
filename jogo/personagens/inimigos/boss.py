@@ -1,5 +1,6 @@
-from .inimigo import Inimigo
 import random
+
+from .inimigo import Inimigo
 
 class Boss(Inimigo):
     def __init__(self):

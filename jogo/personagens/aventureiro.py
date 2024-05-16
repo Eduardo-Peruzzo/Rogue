@@ -1,57 +1,31 @@
 import random
 
 class Aventureiro:
-    def __init__(self) -> None:
-
-        self.forca =  random.randint(10, 18)
-        self.defesa =  random.randint(10, 18)
-        self.vida =  random.randint(100, 120)
-        self.posicao =  [0, 0]
-        self.nome = "Aventureiro"
+    def __init__(self):
+        self.forca = random.randint(10, 18)
+        self.defesa = random.randint(10, 18)
+        self.vida = random.randint(100, 120)
+        self.posicao = [0, 0]
         self.char = "@"
+        self.nome = "Aventureiro"
         self.status = "Comece a explorar"
 
     def calcular_pos_futura(self, direcao):
         x, y = self.posicao
-        
-
-    def andar(self, direcao):
-        """
-        Altera o valor da posição do aventureiro conforme a direção informada pelo
-        usuário. Direções válidas:
-        - W: cima
-        - A: esquerda
-        - S: baixo
-        - D: direita
-
-        Se o aventureiro estiver nos limites do mapa, não faz nenhum movimento.
-
-        Considerar que o mapa é um sistema cartesiano, com o eixo x aumentando
-        da esquerda para a direita, e o eixo y aumentando de cima para baixo.
-        Portanto, as coordenadas (0, 0) estão no canto superior esquerdo do mapa,
-        enquanto que as coordenadas (9, 9) estão no canto inferior direito.
-
-        Retorna True caso o aventureiro tenha andado, e False caso contrário.
-        """
         match direcao:
             case "W":
-                if self.posicao[1] > 0:
-                    self.posicao[1] -= 1
-                    return True
+                y -= 1
             case "S":
-                if self.posicao[1] < 9:
-                    self.posicao[1] += 1
-                    return True
+                y += 1
             case "A":
-                if self.posicao[0] > 0:
-                    self.posicao[0] -= 1
-                    return True
+                x -= 1
             case "D":
-                if self.posicao[0] < 9:
-                    self.posicao[0] += 1
-                    return True
+                x += 1
 
-        return False
+        return [x, y]
+
+    def andar(self, nova_posicao):
+        self.posicao = nova_posicao
 
     def atacar(self):
         """

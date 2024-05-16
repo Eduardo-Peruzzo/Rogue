@@ -1,7 +1,7 @@
 import random
 
 class NPC:
-    def __init__(self, tesouro) -> None:
+    def __init__(self, tesouro):
         while True:
             x = random.randint(0, 9)
             y = random.randint(0, 9)
@@ -9,4 +9,5 @@ class NPC:
                 break
 
         self.posicao = [x, y]
-        self.char = "!"
+        self.char = "&"
+        self.mensagem = "Olá! Eu sou um NPC!"
