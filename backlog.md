@@ -9,12 +9,18 @@
 - Criar uma sublclasse de inimigo, boss
 - Adicionar a ação de combate quando o aventureiro chegar no tesouro
 
-[ ]npcs
+[x]npcs
 - Criar uma classe NPC, com char, posição e mensagem
 - Renderizar o NPC na tela
 - Impedir o aventureiro de passar por cima do NPC
 - Criar um botão de ação "falar com o npc"
 - Renderizar a fala do npc na tela
+
+[ ] loja do npc?
+
+
+FAZER UMA DIMENSÃO NOVA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 
 [ ] aumentar o tamanho do mapa
 [ ] escolher os atributos
@@ -37,6 +43,5 @@
 [ ] dificuldade do jogo
 [ ] IA de monstros
 [ ] pet
-[ ] loja
 [ ] skin
 [ ] skill tree

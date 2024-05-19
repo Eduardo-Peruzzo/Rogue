@@ -11,9 +11,11 @@ class Aventureiro:
         self.nome = "Aventureiro"
         self.status = "Comece a explorar"
         self.cor = CORES.branco
+        self.background = CORES.preto
         self.nivel = 1
         self.monstros_derrotados = 0
         self.xp = f"nv {self.nivel} ({self.monstros_derrotados}/5)"
+        self.dimensao = "normal"
 
     def calcular_pos_futura(self, direcao):
         x, y = self.posicao

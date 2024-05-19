@@ -1,5 +1,5 @@
 import random
-
+from jogo.gui.cores import CORES
 from ..personagens.inimigos.monstro import Monstro
 
 
@@ -53,9 +53,12 @@ def movimentar(aventureiro, direcao, npc, dificuldade):
         if iniciar_combate(aventureiro, monstro):
             aventureiro.status = f"{monstro.nome} foi derrotado!"
             aventureiro.monstros_derrotados += 1
+            # Aventureiro sobe de nível
             if aventureiro.monstros_derrotados == 5:
                 aventureiro.monstros_derrotados = 0
                 aventureiro.nivel += 1
+                aventureiro.forca = aventureiro.forca + (aventureiro.forca * 0.1)
+                aventureiro.defesa = aventureiro.defesa + (aventureiro.defesa * 0.1)
             aventureiro.xp = f"nv {aventureiro.nivel} ({aventureiro.monstros_derrotados}/5)"
             return True
 
@@ -89,4 +92,6 @@ def tomar_pocao(aventureiro, pocao):
         aventureiro.status = "Sua defesa aumentou em 10!"
 
     pocao.posicao = [1000, 1000]
+    aventureiro.background = CORES.amarelo
+    aventureiro.cor = CORES.preto
 

@@ -1,16 +1,16 @@
 from . import mecanicas
 
 from ..gui.tela import Tela
-
+from jogo.gui.cores import CORES
 from ..personagens.aventureiro import Aventureiro
 from ..personagens.tesouro import Tesouro
 from ..personagens.npc import NPC
 from ..personagens.pocao import Pocao
 from ..personagens.inimigos.boss import Boss
 from jogo.mecanicas.dificuldade import Dificuldade
+from jogo.dimensao.nether import Nether
 
 import pygame
-
 
 
 
@@ -54,6 +54,7 @@ def executar():
     tesouro = Tesouro()
     npc = NPC(tesouro)
     pocao = Pocao(tesouro, npc)
+    portal = Nether(tesouro, npc, pocao)
     tela = Tela()
     dificuldade = Dificuldade()
 
@@ -98,6 +99,25 @@ def executar():
                     if aventureiro.posicao == pocao.posicao:
                         mecanicas.tomar_pocao(aventureiro, pocao)
 
+                    if aventureiro.posicao == portal.posicao:
+                        portal.posicao = [1000, 1000]
+                        aventureiro.dimensao = "nether"
+
         # Renderização na tela
-        tela.renderizar(aventureiro, tesouro, npc, pocao, dificuldade)
+        if aventureiro.dimensao == "nether":
+            tesouro = Tesouro()
+            npc = NPC(tesouro)
+            pocao = Pocao(tesouro, npc)
+            tela.renderizar_nether(aventureiro, tesouro, npc, pocao, dificuldade, portal)
+            aventureiro.dimensao = "nether_entrou"
+            aventureiro.background = CORES.roxo
+            pocao.background = CORES.roxo
+            npc.background = CORES.roxo
+            tesouro.background = CORES.roxo
+            aventureiro.posicao = [0, 0]
+
+        elif aventureiro.dimensao == "nether_entrou":
+            tela.renderizar_nether(aventureiro, tesouro, npc, pocao, dificuldade, portal)
+        else:
+            tela.renderizar(aventureiro, tesouro, npc, pocao, dificuldade, portal)
         pygame.time.Clock().tick(60)

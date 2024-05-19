@@ -19,3 +19,4 @@ class Tesouro:
         self.posicao = [x, y]
         self.char = "X"
         self.cor = CORES.vermelho
+        self.background = CORES.preto

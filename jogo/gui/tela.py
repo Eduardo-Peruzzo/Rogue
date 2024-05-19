@@ -21,25 +21,29 @@ class Tela:
         self.fonte_gde = pygame.font.SysFont(FONTE, GRID)
         self.fonte_peq = pygame.font.SysFont(FONTE, GRID // 2)
 
-    def renderizar(self, aventureiro, tesouro, npc, pocao, dificuldade):
+    def renderizar(self, aventureiro, tesouro, npc, pocao, dificuldade, portal):
         self.display.fill(CORES.preto)
         self.informacoes(aventureiro, dificuldade)
         self.personagem(tesouro)
         self.personagem(aventureiro)
         self.personagem(npc)
         self.personagem(pocao)
-        self.mapa(aventureiro, tesouro, npc, pocao)
+        self.personagem(portal)
+        if aventureiro.dimensao == "nether":
+            self.mapa_nether(aventureiro, tesouro, npc, pocao)
+        else:
+            self.mapa(aventureiro, tesouro, npc, pocao, portal)
         pygame.display.update()
 
-    def mapa(self, aventureiro, tesouro, npc, pocao):
+    def mapa(self, aventureiro, tesouro, npc, pocao, portal):
         texto = self.fonte_gde.render(".", True, CORES.branco)
         for linha in range(10):
             for coluna in range(10):
-                if [linha, coluna] not in [aventureiro.posicao, tesouro.posicao, npc.posicao, pocao.posicao]:
+                if [linha, coluna] not in [aventureiro.posicao, tesouro.posicao, npc.posicao, pocao.posicao, portal.posicao]:
                     self.display.blit(texto, centralizar_texto(texto, [linha, coluna]))
 
     def personagem(self, personagem):
-        texto = self.fonte_gde.render(personagem.char, True, personagem.cor)
+        texto = self.fonte_gde.render(personagem.char, True, personagem.cor, personagem.background)
         self.display.blit(
             texto,
             centralizar_texto(texto, [personagem.posicao[0], personagem.posicao[1]])
@@ -47,7 +51,7 @@ class Tela:
 
     def informacoes(self, aventureiro, dificuldade):
         atributos = f"{aventureiro.nome} {aventureiro.xp} / " \
-            f"Vida: {aventureiro.vida:.0f} / Força: {aventureiro.forca} / Defesa: {aventureiro.defesa}"
+            f"Vida: {aventureiro.vida:.0f} / Força: {aventureiro.forca:.0f} / Defesa: {aventureiro.defesa:.0f}"
         texto = self.fonte_peq.render(atributos, True, CORES.branco)
         self.display.blit(texto, [LARGURA // 2 - texto.get_width() // 2, ALTURA - MARGEM - texto.get_height()])
 
@@ -56,3 +60,22 @@ class Tela:
 
         texto = self.fonte_peq.render(f"Dificuldade: {dificuldade.multiplicador:.4f}", True, CORES.branco)
         self.display.blit(texto, [LARGURA - texto.get_width() - MARGEM, MARGEM])
+
+    def mapa_nether(self, aventureiro, tesouro, npc, pocao):
+        texto = self.fonte_gde.render(".", True, CORES.preto, CORES.roxo)
+        for linha in range(10):
+            for coluna in range(10):
+                if [linha, coluna] not in [aventureiro.posicao, tesouro.posicao, npc.posicao, pocao.posicao]:
+                    self.display.blit(texto, centralizar_texto(texto, [linha, coluna]))
+
+    def renderizar_nether(self, aventureiro, tesouro, npc, pocao, dificuldade, portal):
+        self.display.fill(CORES.roxo)
+        self.informacoes(aventureiro, dificuldade)
+        self.personagem(tesouro)
+        self.personagem(aventureiro)
+        self.personagem(npc)
+        self.personagem(pocao)
+        self.personagem(portal)
+
+        self.mapa_nether(aventureiro, tesouro, npc, pocao)
+        pygame.display.update()

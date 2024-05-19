@@ -13,3 +13,4 @@ class NPC:
         self.char = "&"
         self.mensagem = "Olá! Eu sou um NPC!"
         self.cor = CORES.amarelo
+        self.background = CORES.preto
