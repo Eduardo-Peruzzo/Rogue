@@ -4,7 +4,7 @@ import pygame
 
 GRID = 40
 MARGEM = 10
-LARGURA = GRID * 10 + 300
+LARGURA = GRID * 10 + 350
 ALTURA = GRID * 10 + 100
 FONTE = "Courier New"
 
@@ -21,34 +21,38 @@ class Tela:
         self.fonte_gde = pygame.font.SysFont(FONTE, GRID)
         self.fonte_peq = pygame.font.SysFont(FONTE, GRID // 2)
 
-    def renderizar(self, aventureiro, tesouro, npc):
+    def renderizar(self, aventureiro, tesouro, npc, pocao, dificuldade):
         self.display.fill(CORES.preto)
-        self.informacoes(aventureiro)
+        self.informacoes(aventureiro, dificuldade)
         self.personagem(tesouro)
         self.personagem(aventureiro)
         self.personagem(npc)
-        self.mapa(aventureiro, tesouro, npc)
+        self.personagem(pocao)
+        self.mapa(aventureiro, tesouro, npc, pocao)
         pygame.display.update()
 
-    def mapa(self, aventureiro, tesouro, npc):
+    def mapa(self, aventureiro, tesouro, npc, pocao):
         texto = self.fonte_gde.render(".", True, CORES.branco)
         for linha in range(10):
             for coluna in range(10):
-                if [linha, coluna] not in [aventureiro.posicao, tesouro.posicao, npc.posicao]:
+                if [linha, coluna] not in [aventureiro.posicao, tesouro.posicao, npc.posicao, pocao.posicao]:
                     self.display.blit(texto, centralizar_texto(texto, [linha, coluna]))
 
     def personagem(self, personagem):
-        texto = self.fonte_gde.render(personagem.char, True, CORES.branco)
+        texto = self.fonte_gde.render(personagem.char, True, personagem.cor)
         self.display.blit(
             texto,
             centralizar_texto(texto, [personagem.posicao[0], personagem.posicao[1]])
         )
 
-    def informacoes(self, aventureiro):
-        atributos = f"{aventureiro.nome} - " \
-            f"Vida: {aventureiro.vida} / Força: {aventureiro.forca} / Defesa: {aventureiro.defesa}"
+    def informacoes(self, aventureiro, dificuldade):
+        atributos = f"{aventureiro.nome} {aventureiro.xp} / " \
+            f"Vida: {aventureiro.vida:.0f} / Força: {aventureiro.forca} / Defesa: {aventureiro.defesa}"
         texto = self.fonte_peq.render(atributos, True, CORES.branco)
-        self.display.blit(texto, [MARGEM, ALTURA - MARGEM - texto.get_height()])
+        self.display.blit(texto, [LARGURA // 2 - texto.get_width() // 2, ALTURA - MARGEM - texto.get_height()])
 
         texto = self.fonte_peq.render(aventureiro.status, True, CORES.branco)
         self.display.blit(texto, [MARGEM, MARGEM])
+
+        texto = self.fonte_peq.render(f"Dificuldade: {dificuldade.multiplicador:.4f}", True, CORES.branco)
+        self.display.blit(texto, [LARGURA - texto.get_width() - MARGEM, MARGEM])

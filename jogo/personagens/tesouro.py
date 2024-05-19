@@ -1,4 +1,5 @@
 import random
+from jogo.gui.cores import CORES
 
 class Tesouro:
     def __init__(self):
@@ -17,3 +18,4 @@ class Tesouro:
 
         self.posicao = [x, y]
         self.char = "X"
+        self.cor = CORES.vermelho

@@ -5,9 +5,14 @@ from ..gui.tela import Tela
 from ..personagens.aventureiro import Aventureiro
 from ..personagens.tesouro import Tesouro
 from ..personagens.npc import NPC
+from ..personagens.pocao import Pocao
 from ..personagens.inimigos.boss import Boss
+from jogo.mecanicas.dificuldade import Dificuldade
 
 import pygame
+
+
+
 
 def determinar_direcao(teclas):
     if teclas[pygame.K_a]:
@@ -48,7 +53,9 @@ def executar():
     aventureiro = Aventureiro()
     tesouro = Tesouro()
     npc = NPC(tesouro)
+    pocao = Pocao(tesouro, npc)
     tela = Tela()
+    dificuldade = Dificuldade()
 
     jogo_rodando = True
     while jogo_rodando:
@@ -64,20 +71,33 @@ def executar():
                     aventureiro.status = "Já correndo?"
                     jogo_rodando = False
 
+                if teclas[pygame.K_n]:
+                    dificuldade.multiplicador /= 1.1
+
+                if teclas[pygame.K_m]:
+                    dificuldade.multiplicador *= 1.1
+
                 if teclas[pygame.K_SPACE]:
                     mecanicas.conversar(aventureiro, npc)
-                else:
-                    if not mecanicas.movimentar(aventureiro, determinar_direcao(teclas), npc):
+
+                elif teclas[pygame.K_a] or teclas[pygame.K_d] or teclas[pygame.K_s] or teclas[pygame.K_w]:
+                    if not mecanicas.movimentar(aventureiro, determinar_direcao(teclas), npc, dificuldade):
                         jogo_rodando = False
 
                     if aventureiro.posicao == tesouro.posicao:
                         boss = Boss()
+                        boss.vida *= dificuldade.multiplicador
+                        boss.forca *= dificuldade.multiplicador
+                        boss.defesa *= dificuldade.multiplicador
                         if mecanicas.iniciar_combate(aventureiro, boss):
-                            aventureiro.status = f"Parabéns! Você derrotou {boss.nome} e encontrou o tesouro!"
+                            aventureiro.status = f"Você derrotou {boss.nome} e encontrou o tesouro!"
                         else:
                             aventureiro.status = f"Você foi derrotado por {boss.nome}! Game over..."
                         jogo_rodando = False
 
+                    if aventureiro.posicao == pocao.posicao:
+                        mecanicas.tomar_pocao(aventureiro, pocao)
+
         # Renderização na tela
-        tela.renderizar(aventureiro, tesouro, npc)
+        tela.renderizar(aventureiro, tesouro, npc, pocao, dificuldade)
         pygame.time.Clock().tick(60)

@@ -1,4 +1,5 @@
 import random
+from jogo.gui.cores import CORES
 
 class NPC:
     def __init__(self, tesouro):
@@ -11,3 +12,4 @@ class NPC:
         self.posicao = [x, y]
         self.char = "&"
         self.mensagem = "Olá! Eu sou um NPC!"
+        self.cor = CORES.amarelo
