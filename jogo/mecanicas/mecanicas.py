@@ -48,18 +48,19 @@ def movimentar(aventureiro, direcao, npc, dificuldade):
     efeito = random.choices(["nada", "monstro"], [0.6, 0.4])[0]
     if efeito == "monstro":
         monstro = Monstro()
-        monstro.forca *= dificuldade.multiplicador
-        monstro.vida *= dificuldade.multiplicador
+        monstro.forca = int(monstro.forca * dificuldade.multiplicador)
+        monstro.vida = int(monstro.vida * dificuldade.multiplicador)
         if iniciar_combate(aventureiro, monstro):
             aventureiro.status = f"{monstro.nome} foi derrotado!"
             aventureiro.monstros_derrotados += 1
             # Aventureiro sobe de nível
-            if aventureiro.monstros_derrotados == 5:
+            if aventureiro.monstros_derrotados >= aventureiro.xp_por_nivel:
                 aventureiro.monstros_derrotados = 0
                 aventureiro.nivel += 1
                 aventureiro.forca = aventureiro.forca + (aventureiro.forca * 0.1)
                 aventureiro.defesa = aventureiro.defesa + (aventureiro.defesa * 0.1)
-            aventureiro.xp = f"nv {aventureiro.nivel} ({aventureiro.monstros_derrotados}/5)"
+                aventureiro.xp_por_nivel += 1
+            aventureiro.xp = f"nv {aventureiro.nivel} ({aventureiro.monstros_derrotados}/{aventureiro.xp_por_nivel})"
             return True
 
         aventureiro.status = f"Você foi derrotado por {monstro.nome}! Game Over..."
@@ -94,4 +95,3 @@ def tomar_pocao(aventureiro, pocao):
     pocao.posicao = [1000, 1000]
     aventureiro.background = CORES.amarelo
     aventureiro.cor = CORES.preto
-

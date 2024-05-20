@@ -2,19 +2,20 @@ import random
 from jogo.gui.cores import CORES
 
 class Aventureiro:
-    def __init__(self):
+    def __init__(self, nome):
         self.forca = random.randint(10, 18)
         self.defesa = random.randint(10, 18)
         self.vida = random.randint(100, 120)
         self.posicao = [0, 0]
         self.char = "@"
-        self.nome = "Aventureiro"
+        self.nome = nome
         self.status = "Comece a explorar"
         self.cor = CORES.branco
         self.background = CORES.preto
         self.nivel = 1
         self.monstros_derrotados = 0
-        self.xp = f"nv {self.nivel} ({self.monstros_derrotados}/5)"
+        self.xp_por_nivel = 1
+        self.xp = f"nv {self.nivel} ({self.monstros_derrotados}/{self.xp_por_nivel})"
         self.dimensao = "normal"
 
     def calcular_pos_futura(self, direcao):
