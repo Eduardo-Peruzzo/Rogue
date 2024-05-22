@@ -19,9 +19,6 @@
 [ ] loja do npc?
 
 
-FAZER UMA DIMENSÃO NOVA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
 [ ] aumentar o tamanho do mapa
 [ ] escolher os atributos
 [ ] adicionar outros tipos de monstro

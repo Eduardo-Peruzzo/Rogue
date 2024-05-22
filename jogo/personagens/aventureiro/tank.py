@@ -8,3 +8,6 @@ class Tank(Aventureiro):
         self.forca = random.randint(8, 15)
         self.defesa = random.randint (15, 20)
         self.vida = random.randint(120, 150)
+
+        self.char = "T"
+        self.chars.append("T")

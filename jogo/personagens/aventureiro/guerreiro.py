@@ -8,3 +8,6 @@ class Guerreiro(Aventureiro):
         self.forca = random.randint(15, 30)
         self.defesa = random.randint (8, 15)
         self.vida = random.randint(90, 110)
+
+        self.char = "G"
+        self.chars.append("G")

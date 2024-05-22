@@ -1,4 +1,10 @@
+import os.path
 import random
+
+from ..mecanicas import som
+
+import pygame
+
 from jogo.gui.cores import CORES
 
 class NPC:
@@ -14,3 +20,10 @@ class NPC:
         self.mensagem = "Olá! Eu sou um NPC!"
         self.cor = CORES.amarelo
         self.background = CORES.preto
+
+    @staticmethod
+    def falar():
+        oi = pygame.mixer.Sound(os.path.join(som.DIRETORIO, "npc.mp3"))
+        pygame.mixer.Sound.play(oi)
+
+

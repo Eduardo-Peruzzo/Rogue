@@ -1,4 +1,11 @@
+import os.path
 import random
+
+from ...gui.cores import CORES
+from ...mecanicas import som
+
+import pygame
+
 from jogo.gui.cores import CORES
 
 class Aventureiro:
@@ -7,15 +14,22 @@ class Aventureiro:
         self.defesa = random.randint(10, 18)
         self.vida = random.randint(100, 120)
         self.posicao = [0, 0]
+
+        self.chars = ["@", "#", "$"]
+        self.cores = [CORES.branco, CORES.vermelho, CORES.verde, CORES.vermelho_escuro]
         self.char = "@"
+        self.cor = CORES.branco
+
         self.nome = nome
         self.status = "Comece a explorar"
-        self.cor = CORES.branco
+
         self.background = CORES.preto
+
         self.nivel = 1
-        self.monstros_derrotados = 0
+        self.xp = 0
         self.xp_por_nivel = 1
-        self.xp = f"nv {self.nivel} ({self.monstros_derrotados}/{self.xp_por_nivel})"
+        self.nv = f"nv {self.nivel} ({self.xp}/{self.xp_por_nivel})"
+
         self.dimensao = "normal"
 
     def calcular_pos_futura(self, direcao):
@@ -51,3 +65,26 @@ class Aventureiro:
 
     def esta_vivo(self):
         return self.vida > 0
+
+    def trocar_cor(self, aleatorio=False):
+        if aleatorio:
+            self.cor = (random.randint(1, 255), random.randint(1, 255), random.randint(1, 255))
+        else:
+            if self.cor in self.cores:
+                cor = self.cores.index(self.cor) + 1
+                if cor == len(self.cores):
+                    cor = 0
+                self.cor = self.cores[cor]
+            else:
+                self.cor = self.cores[0]
+
+    def trocar_char(self):
+        char = self.chars.index(self.char) + 1
+        if char == len(self.chars):
+            char = 0
+        self.char = self.chars[char]
+
+    @staticmethod
+    def morrer():
+        morte = pygame.mixer.Sound(os.path.join(som.DIRETORIO, "morte.wav"))
+        pygame.mixer.Sound.play(morte)

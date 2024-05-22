@@ -50,7 +50,7 @@ class Tela:
         )
 
     def informacoes(self, aventureiro, dificuldade):
-        atributos = f"{aventureiro.nome} {aventureiro.xp} / " \
+        atributos = f"{aventureiro.nome} {aventureiro.nv} / " \
             f"Vida: {aventureiro.vida:.0f} / Força: {aventureiro.forca:.0f} / Defesa: {aventureiro.defesa:.0f}"
         texto = self.fonte_peq.render(atributos, True, CORES.branco)
         self.display.blit(texto, [LARGURA // 2 - texto.get_width() // 2, ALTURA - MARGEM - texto.get_height()])

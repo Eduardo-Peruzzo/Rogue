@@ -1,30 +1,28 @@
 import random
 from jogo.gui.cores import CORES
-from ..personagens.inimigos.monstro import Monstro
+import pygame
+import os
+import os.path
+from . import som
+from ..personagens.inimigos.leviathan import Leviathan
+from ..personagens.inimigos.goblin import Goblin
+from ..personagens.inimigos.ogro import Ogro
 
 
 # Combate
 def iniciar_combate(aventureiro, inimigo):
-    """
-    Executa um loop infinito, que possui as seguintes etapas:
-    - Calcula o dano causado pelo aventureiro
-    - Monstro faz a sua defesa
-    - Exibe na tela o dano causado pelo aventureiro e a vida atual do monstro
-    - Se o monstro não está mais vivo, retorna True
-    - Calcula o dano causado pelo monstro
-    - Aventureiro faz sua defesa
-    - Exibe na tela o dano causado pelo monstro e a vida atual do aventureiro
-    - Se o aventureiro não está mais vivo, retorna False
-    """
     while True:
         dano = aventureiro.atacar()
         inimigo.defender(dano)
         if not inimigo.esta_vivo():
+            if inimigo.nome == "Boss":
+                inimigo.morrer()
             return True
 
         dano = inimigo.atacar()
         aventureiro.defender(dano)
         if not aventureiro.esta_vivo():
+            aventureiro.morrer()
             return False
 
 def existe_obstaculo(posicao, npc):
@@ -47,26 +45,32 @@ def movimentar(aventureiro, direcao, npc, dificuldade):
 
     efeito = random.choices(["nada", "monstro"], [0.6, 0.4])[0]
     if efeito == "monstro":
-        monstro = Monstro()
+        monstro = random.choices([Leviathan, Ogro, Goblin], [1, 3, 10])[0]()
         monstro.forca = int(monstro.forca * dificuldade.multiplicador)
         monstro.vida = int(monstro.vida * dificuldade.multiplicador)
         if iniciar_combate(aventureiro, monstro):
             aventureiro.status = f"{monstro.nome} foi derrotado!"
-            aventureiro.monstros_derrotados += 1
+            aventureiro.xp += monstro.xp
             # Aventureiro sobe de nível
-            if aventureiro.monstros_derrotados >= aventureiro.xp_por_nivel:
-                aventureiro.monstros_derrotados = 0
+            if aventureiro.xp >= aventureiro.xp_por_nivel:
+                aventureiro.xp = 0
                 aventureiro.nivel += 1
                 aventureiro.forca = aventureiro.forca + (aventureiro.forca * 0.1)
                 aventureiro.defesa = aventureiro.defesa + (aventureiro.defesa * 0.1)
+                aventureiro.vida += 10
                 aventureiro.xp_por_nivel += 1
-            aventureiro.xp = f"nv {aventureiro.nivel} ({aventureiro.monstros_derrotados}/{aventureiro.xp_por_nivel})"
+                levelup = pygame.mixer.Sound(os.path.join(som.DIRETORIO, "levelup.wav"))
+                pygame.mixer.Sound.play(levelup)
+            else:
+                monstro.morrer()
+            aventureiro.nv = f"nv {aventureiro.nivel} ({aventureiro.xp}/{aventureiro.xp_por_nivel})"
             return True
 
         aventureiro.status = f"Você foi derrotado por {monstro.nome}! Game Over..."
         return False
 
     aventureiro.status = "Continue explorando"
+    som.passo()
     return True
 
 def conversar(aventureiro, npc):
@@ -75,9 +79,11 @@ def conversar(aventureiro, npc):
 
     if (x_a + 1 == x_n or x_a - 1 == x_n) and y_a == y_n:
         aventureiro.status = npc.mensagem
+        npc.falar()
 
     if (y_a + 1 == y_n or y_a - 1 == y_n) and x_a == x_n:
         aventureiro.status = npc.mensagem
+        npc.falar()
 
 def tomar_pocao(aventureiro, pocao):
     if pocao.efeito == 1:

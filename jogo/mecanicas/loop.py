@@ -1,5 +1,5 @@
 from . import mecanicas
-
+import os
 from ..gui.tela import Tela
 from jogo.gui.cores import CORES
 from ..personagens.aventureiro.aventureiro import Aventureiro
@@ -13,7 +13,7 @@ from jogo.mecanicas.dificuldade import Dificuldade
 from jogo.dimensao.nether import Nether
 from .inputbox import ler_texto
 from .buttonbox import escolher_classe
-
+from . import som
 import pygame
 
 
@@ -30,30 +30,10 @@ def determinar_direcao(teclas):
 
     return ""
 
-def executar():
-    """
-    Fluxo principal do jogo, possui as seguintes etapas:
-    - Inicia um aventureiro num dicionário com as propriedades:
-        - forca: valor inteiro aleatório entre 10 e 18
-        - defesa: valor inteiro aleatório entre 10 e 18
-        - vida: valor inteiro aleatório entre 100 e 120
-        - posicao: uma lista [0, 0]
 
-    - Gera uma posição aleatória para o tesouro, usando a função gerar_tesouro
-    - Lê um nome para o aventureiro, e armazena no dicionário
-    - Desenha o mapa pela primeira vez
-    - Em um loop infinito:
-        - Lê o comando inserido pelo usuário
-        - Se for o comando "Q", encerra o programa
-        - Se for o comando "T", exibe os atributos do aventureiro
-        - Se o comando for "W", "A", "S" ou "D":
-            - Realiza o movimento e verifica o resultado da função movimentar
-            - Se o resultado for True, desenha novamente o mapa
-            - Se for False, imprime "Game over" na tela e encerra o programa
-        - Se o usuário inserir algum comando diferente, diz que não reconheceu
-        - Se a posição do aventureiro for igual à posição do tesouro, dispara
-        uma mensagem que o aventureiro ganhou o jogo
-    """
+def executar():
+    som.iniciar_musica()
+
     nome = ler_texto()
     classe = escolher_classe()
     match classe:
@@ -83,6 +63,13 @@ def executar():
                 if teclas[pygame.K_q]:
                     aventureiro.status = "Já correndo?"
                     jogo_rodando = False
+
+                if teclas[pygame.K_c]:
+                    aventureiro.trocar_char()
+                elif teclas[pygame.K_v]:
+                    aventureiro.trocar_cor()
+                elif teclas[pygame.K_b]:
+                    aventureiro.trocar_cor(aleatorio=True)
 
                 if teclas[pygame.K_n]:
                     dificuldade.multiplicador /= 1.1
@@ -127,6 +114,7 @@ def executar():
             npc.background = CORES.roxo
             tesouro.background = CORES.roxo
             aventureiro.posicao = [0, 0]
+            aventureiro.status = "Você entrou em outra dimensão!"
 
         elif aventureiro.dimensao == "nether_entrou":
             tela.renderizar_nether(aventureiro, tesouro, npc, pocao, dificuldade, portal)
