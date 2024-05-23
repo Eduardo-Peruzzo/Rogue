@@ -19,7 +19,6 @@ class Boss(Inimigo):
     def morrer():
         barulho = pygame.mixer.Sound(os.path.join(som.DIRETORIO, "vitoria.wav"))
         pygame.mixer.Sound.play(barulho)
-        print("OI")
 
     def defender(self, dano):
         dano -= self.defesa
