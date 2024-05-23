@@ -16,12 +16,13 @@ class Aventureiro:
         self.posicao = [0, 0]
 
         self.chars = ["@", "#", "$"]
-        self.cores = [CORES.branco, CORES.vermelho, CORES.verde, CORES.vermelho_escuro]
+        self.cores = [CORES.branco, CORES.roxo, CORES.ciano, CORES.azul_claro ,CORES.azul, CORES.azul_escuro, CORES.verde_claro, CORES.verde, CORES.verde_escuro, CORES.amarelo_claro, CORES.amarelo, CORES.laranja, CORES.laranja_avermelhado, CORES.vermelho, CORES.vermelho_escuro]
         self.char = "@"
         self.cor = CORES.branco
 
         self.nome = nome
         self.status = "Comece a explorar"
+        self.tomou_pocao = "nao"
 
         self.background = CORES.preto
 

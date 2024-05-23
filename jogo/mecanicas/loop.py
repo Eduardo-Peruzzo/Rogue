@@ -1,5 +1,5 @@
 from . import mecanicas
-import os
+import time
 from ..gui.tela import Tela
 from jogo.gui.cores import CORES
 from ..personagens.aventureiro.aventureiro import Aventureiro
@@ -53,10 +53,17 @@ def executar():
     jogo_rodando = True
     while jogo_rodando:
         # Análise dos eventos
+
+        if aventureiro.tomou_pocao == "sim": # Quando o player tomar a poção ele vai ficar piscando em várias cores, para indicar que ele ficou mais forte!
+            aventureiro.trocar_cor()
+            time.sleep(0.09)
+
         teclas = pygame.key.get_pressed()
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
                 jogo_rodando = False
+
+
 
             if evento.type == pygame.KEYUP:
                 # Processamento do jogo

@@ -7,6 +7,7 @@ from . import som
 from ..personagens.inimigos.leviathan import Leviathan
 from ..personagens.inimigos.goblin import Goblin
 from ..personagens.inimigos.ogro import Ogro
+import time
 
 
 # Combate
@@ -99,5 +100,4 @@ def tomar_pocao(aventureiro, pocao):
         aventureiro.status = "Sua defesa aumentou em 10!"
 
     pocao.posicao = [1000, 1000]
-    aventureiro.background = CORES.amarelo
-    aventureiro.cor = CORES.preto
+    aventureiro.tomou_pocao = "sim"
