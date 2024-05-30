@@ -7,6 +7,9 @@ from . import som
 from ..personagens.inimigos.leviathan import Leviathan
 from ..personagens.inimigos.goblin import Goblin
 from ..personagens.inimigos.ogro import Ogro
+from jogo.personagens.inimigos.inimigos_nether.diabo import Diabo
+from jogo.personagens.inimigos.inimigos_nether.wither import Wither
+from jogo.personagens.inimigos.inimigos_nether.enderdragon import Ender_dragon
 import time
 
 
@@ -45,27 +48,50 @@ def movimentar(aventureiro, direcao, npc, dificuldade):
     aventureiro.andar(pos_futura)
 
     efeito = random.choices(["nada", "monstro"], [0.6, 0.4])[0]
+
     if efeito == "monstro":
-        monstro = random.choices([Leviathan, Ogro, Goblin], [1, 3, 10])[0]()
-        monstro.forca = int(monstro.forca * dificuldade.multiplicador)
-        monstro.vida = int(monstro.vida * dificuldade.multiplicador)
-        if iniciar_combate(aventureiro, monstro):
-            aventureiro.status = f"{monstro.nome} foi derrotado!"
-            aventureiro.xp += monstro.xp
-            # Aventureiro sobe de nível
-            if aventureiro.xp >= aventureiro.xp_por_nivel:
-                aventureiro.xp = 0
-                aventureiro.nivel += 1
-                aventureiro.forca = aventureiro.forca + (aventureiro.forca * 0.1)
-                aventureiro.defesa = aventureiro.defesa + (aventureiro.defesa * 0.1)
-                aventureiro.vida += 10
-                aventureiro.xp_por_nivel += 1
-                levelup = pygame.mixer.Sound(os.path.join(som.DIRETORIO, "levelup.wav"))
-                pygame.mixer.Sound.play(levelup)
-            else:
-                monstro.morrer()
-            aventureiro.nv = f"nv {aventureiro.nivel} ({aventureiro.xp}/{aventureiro.xp_por_nivel})"
-            return True
+        if aventureiro.dimensao == "nether_dentro":
+            monstro = random.choices([Wither, Ender_dragon, Diabo], [10, 3, 1])[0]()
+            monstro.forca = int(monstro.forca * dificuldade.multiplicador)
+            monstro.vida = int(monstro.vida * dificuldade.multiplicador)
+            if iniciar_combate(aventureiro, monstro):
+                aventureiro.status = f"{monstro.nome} foi derrotado!"
+                aventureiro.xp += monstro.xp
+                # Aventureiro sobe de nível
+                if aventureiro.xp >= aventureiro.xp_por_nivel:
+                    aventureiro.xp = 0
+                    aventureiro.nivel += 1
+                    aventureiro.forca = aventureiro.forca + (aventureiro.forca * 0.1)
+                    aventureiro.defesa = aventureiro.defesa + (aventureiro.defesa * 0.1)
+                    aventureiro.vida += 10
+                    aventureiro.xp_por_nivel += 1
+                    levelup = pygame.mixer.Sound(os.path.join(som.DIRETORIO, "levelup.wav"))
+                    pygame.mixer.Sound.play(levelup)
+                else:
+                    monstro.morrer()
+                aventureiro.nv = f"nv {aventureiro.nivel} ({aventureiro.xp}/{aventureiro.xp_por_nivel})"
+                return True
+        else:
+            monstro = random.choices([Leviathan, Ogro, Goblin], [1, 3, 10])[0]()
+            monstro.forca = int(monstro.forca * dificuldade.multiplicador)
+            monstro.vida = int(monstro.vida * dificuldade.multiplicador)
+            if iniciar_combate(aventureiro, monstro):
+                aventureiro.status = f"{monstro.nome} foi derrotado!"
+                aventureiro.xp += monstro.xp
+                # Aventureiro sobe de nível
+                if aventureiro.xp >= aventureiro.xp_por_nivel:
+                    aventureiro.xp = 0
+                    aventureiro.nivel += 1
+                    aventureiro.forca = aventureiro.forca + (aventureiro.forca * 0.1)
+                    aventureiro.defesa = aventureiro.defesa + (aventureiro.defesa * 0.1)
+                    aventureiro.vida += 10
+                    aventureiro.xp_por_nivel += 1
+                    levelup = pygame.mixer.Sound(os.path.join(som.DIRETORIO, "levelup.wav"))
+                    pygame.mixer.Sound.play(levelup)
+                else:
+                    monstro.morrer()
+                aventureiro.nv = f"nv {aventureiro.nivel} ({aventureiro.xp}/{aventureiro.xp_por_nivel})"
+                return True
 
         aventureiro.status = f"Você foi derrotado por {monstro.nome}! Game Over..."
         return False

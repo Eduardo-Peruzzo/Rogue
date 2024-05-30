@@ -9,7 +9,7 @@ pygame.mixer.init()
 
 def iniciar_musica():
     pygame.mixer.music.load(os.path.join(DIRETORIO, "song18.mp3"))
-    pygame.mixer.music.set_volume(0.7)
+    pygame.mixer.music.set_volume(0.4)
     pygame.mixer.music.play(-1)
 
 def passo():
