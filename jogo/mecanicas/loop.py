@@ -65,7 +65,8 @@ def executar():
         if aventureiro.tomou_pocao == "sim": # Quando o player tomar a poção ele vai ficar piscando em várias cores, para indicar que ele ficou mais forte!
             aventureiro.trocar_cor()
             time.sleep(0.05)
-        if aventureiro.tomou_pocao == "sim":
+
+        if aventureiro.tomou_pocao == "sim": # O efeito da poção acaba em 10 segundos.
             if relogio.medir_tempo() >= 10:
                 mecanicas.destomar_pocao(aventureiro, pocao)
                 aventureiro.tomou_pocao = "nao"
@@ -133,7 +134,7 @@ def executar():
                     if aventureiro.posicao == portal.posicao:
                         portal.posicao = [1000, 1000]
                         aventureiro.dimensao = "nether"
-                    
+
         # Renderização na tela
         if aventureiro.dimensao == "nether":
             tesouro = Tesouro()

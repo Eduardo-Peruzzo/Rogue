@@ -17,7 +17,7 @@ class Hades(Inimigo):
 
     @staticmethod
     def morrer():
-        barulho = pygame.mixer.Sound(os.path.join(som.DIRETORIO, "vitoria.wav"))
+        barulho = pygame.mixer.Sound(os.path.join(som.DIRETORIO, "hades_morte.mp3"))
         pygame.mixer.Sound.play(barulho)
 
     def defender(self, dano):
