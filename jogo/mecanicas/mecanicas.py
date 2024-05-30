@@ -11,6 +11,7 @@ from jogo.personagens.inimigos.inimigos_nether.diabo import Diabo
 from jogo.personagens.inimigos.inimigos_nether.wither import Wither
 from jogo.personagens.inimigos.inimigos_nether.enderdragon import Ender_dragon
 import time
+from jogo.gui.relogio import Relogio
 
 
 # Combate
@@ -127,3 +128,24 @@ def tomar_pocao(aventureiro, pocao):
 
     pocao.posicao = [1000, 1000]
     aventureiro.tomou_pocao = "sim"
+
+def destomar_pocao(aventureiro, pocao):
+
+    if pocao.efeito == 1:
+        aventureiro.vida /= 2
+        aventureiro.status = "Acabou o efeito da poção :("
+
+    if pocao.efeito == 2:
+        aventureiro.forca -= 15
+        aventureiro.status = "Acabou o efeito da poção :("
+    
+    if pocao.efeito == 3:
+        aventureiro.defesa -= 10
+        aventureiro.status = "Acabou o efeito da poção :("
+
+
+
+
+
+
+

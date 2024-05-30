@@ -19,6 +19,7 @@ from . import som
 import os
 import os.path
 import pygame
+from jogo.gui.relogio import Relogio
 
 
 
@@ -64,6 +65,11 @@ def executar():
         if aventureiro.tomou_pocao == "sim": # Quando o player tomar a poção ele vai ficar piscando em várias cores, para indicar que ele ficou mais forte!
             aventureiro.trocar_cor()
             time.sleep(0.05)
+        if aventureiro.tomou_pocao == "sim":
+            if relogio.medir_tempo() >= 10:
+                mecanicas.destomar_pocao(aventureiro, pocao)
+                aventureiro.tomou_pocao = "nao"
+                aventureiro.cor = CORES.branco
 
         teclas = pygame.key.get_pressed()
         for evento in pygame.event.get():
@@ -122,11 +128,12 @@ def executar():
 
                     if aventureiro.posicao == pocao.posicao:
                         mecanicas.tomar_pocao(aventureiro, pocao)
+                        relogio = Relogio()
 
                     if aventureiro.posicao == portal.posicao:
                         portal.posicao = [1000, 1000]
                         aventureiro.dimensao = "nether"
-
+                    
         # Renderização na tela
         if aventureiro.dimensao == "nether":
             tesouro = Tesouro()
@@ -141,7 +148,7 @@ def executar():
             aventureiro.posicao = [0, 0]
             aventureiro.status = "Você entrou em outra dimensão!"
             pygame.mixer.music.load(os.path.join(som.DIRETORIO, "musica_nether.mp3"))
-            pygame.mixer.music.set_volume(0.9)
+            pygame.mixer.music.set_volume(0.4)
             pygame.mixer.music.play(-1, 98)
 
         elif aventureiro.dimensao == "nether_dentro":
