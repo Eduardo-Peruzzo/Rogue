@@ -4,6 +4,7 @@ Feito por:
 * Eduardo Barros Peruzzo
 * Vinicus da Luz Lima Cabral Pinto
 * Pedro dos Santos Carlos da Silva
+* Eduardo de Araujo Rolim Cersosimo de Andrade
 
 Adições das funionalidades extras:
 * Nova dimensão, chamada de "Nether", a qual é acessada por um portal inicializado junto com o mapa. Ao entrar no portal, uma nova função do mapa da dimensão é ativada, mudando o mapa para essa nova dimensão.
